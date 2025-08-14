@@ -18,7 +18,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "concurrent": "concurrently \"npm run start\" \"nodemon cd ../cloud_pad_backend/index.js\""
+    "conc": "concurrently \"npm run start\" \"nodemon cd ../cloud_pad_backend/index.js\""
   },
   "eslintConfig": {
     "extends": [
