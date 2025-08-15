@@ -8,8 +8,8 @@ function Notes() {
   return (
     <div className="row my-3">
       <h2>All Notes</h2>
-      {notes.map((notes) => {
-        return <Noteitem note={notes} />;
+      {notes.map((note) => {
+        return <Noteitem key= {note._id} note={note} />;
       })}
     </div>
   );

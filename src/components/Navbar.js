@@ -7,6 +7,7 @@ const Navbar = () => {
     <nav className="navbar navbar-expand-lg bg-body-tertiary">
       <div className="container-fluid">
         <Link className="navbar-brand" to="/doc">
+        <i className="fa-regular fa-cloud"></i>
           Cloud Pad
         </Link>
         <button
