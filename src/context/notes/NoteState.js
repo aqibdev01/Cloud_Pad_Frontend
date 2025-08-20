@@ -5,9 +5,8 @@ const NoteState = (props) => {
   const host = "http://localhost:5000";
   const authToken =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjhhMGQxYzIyMTEzNTA1MjQwZGUwZjU3In0sImlhdCI6MTc1NTM3MTg5Nn0.ibRbbxtoPjhc1-XpN9e6qEuxfRifo9A543ZOmGh0ofs";
-  const notesTest = [];
 
-  const [notes, setNotes] = useState(notesTest);
+  const [notes, setNotes] = useState([]);
 
   const fetchAllNotes = async () => {
     const url = `${host}/api/notes/fetchAll`;
@@ -20,8 +19,8 @@ const NoteState = (props) => {
         "auth-token": authToken,
       },
     });
-    const jsonResponse = response.json();
-    console.log(jsonResponse);
+    const jsonResponse = await response.json();
+    setNotes(jsonResponse);
   };
 
   const addNote = async (title, description, tag) => {
@@ -37,16 +36,13 @@ const NoteState = (props) => {
       },
       body: JSON.stringify({ title, description, tag }),
     });
-    const jsonResponse = await response.json();
-    console.log(jsonResponse);
+    fetchAllNotes();
   };
 
   const editNote = async (id, title, description, tag) => {
-    const url = `${host}/api/notes/updateNote${id}`;
-    const method = "PUT";
 
-    const response = await fetch(url, {
-      method: method,
+    const response = await fetch(`${host}/api/notes/updateNote/${id}`, {
+      method: "PUT",
       headers: {
         "Content-Type": "application/json",
         "auth-token": authToken,
@@ -67,7 +63,7 @@ const NoteState = (props) => {
   };
 
   const deleteNote = async (id) => {
-    const url = `${host}/api/notes/deleteNote${id}`;
+    const url = `${host}/api/notes/deleteNote/${id}`;
     const method = "DELETE";
 
     const response = await fetch(url, {
@@ -77,8 +73,7 @@ const NoteState = (props) => {
         "auth-token": authToken,
       },
     });
-    const jsonResponse = response.json();
-    console.log(jsonResponse);
+    fetchAllNotes();
   };
 
   return (
