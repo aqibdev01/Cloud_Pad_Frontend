@@ -5,14 +5,13 @@ import Noteitem from "./Noteitem";
 function Notes() {
   const context = useContext(noteContext);
   const { notes, fetchAllNotes, editNote } = context;
-    const ref = useRef(null);
+  const ref = useRef(null);
   const [note, setNote] = useState({ etitle: "", edescription: "", etag: "" });
   useEffect(() => {
     fetchAllNotes();
     //eslint-disable-next-line
   }, []);
-    const handleUpdate = (currentNote) => {
-    console.log(currentNote)
+  const handleUpdate = (currentNote) => {
     setNote({
       id: currentNote._id, // store ID so we know which note to update
       etitle: currentNote.title,
@@ -33,7 +32,6 @@ function Notes() {
 
   return (
     <div className="row my-3">
-      
       <h2>All Notes</h2>
       <button
         ref={ref}
@@ -44,14 +42,27 @@ function Notes() {
         id="closeModalBtn"
       ></button>
 
-      <div className="modal fade" id="exampleModal" tabIndex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div className="modal-dialog">
-    <div className="modal-content">
-      <div className="modal-header">
-        <h5 className="modal-title" id="exampleModalLabel">Edit Note</h5>
-        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div className="modal-body">
+      <div
+        className="modal fade"
+        id="exampleModal"
+        tabIndex="-1"
+        aria-labelledby="exampleModalLabel"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalLabel">
+                Edit Note
+              </h5>
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div className="modal-body">
               <label htmlFor="etitle" className="form-label">
                 Title
               </label>
@@ -75,7 +86,7 @@ function Notes() {
                 value={note.edescription}
                 placeholder="Description"
                 onChange={handleOnChange}
-                />
+              />
               <label htmlFor="etag" className="form-label">
                 Tag
               </label>
@@ -87,17 +98,35 @@ function Notes() {
                 value={note.etag}
                 placeholder="Tag"
                 onChange={handleOnChange}
-                />
-                </div>
-      <div className="modal-footer">
-        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" className="btn btn-primary" onClick={handleSubmit}>Save changes</button>
-      </div>
-    </div>
-  </div>
+              />
+            </div>
+            <div className="modal-footer">
+              <button
+                type="button"
+                className="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Close
+              </button>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={handleSubmit}
+              >
+                Save changes
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
       {notes.map((note) => {
-        return <Noteitem key={note._id} updateNote={handleUpdate} elementNote={note} />;
+        return (
+          <Noteitem
+            key={note._id}
+            updateNote={handleUpdate}
+            elementNote={note}
+          />
+        );
       })}
     </div>
   );

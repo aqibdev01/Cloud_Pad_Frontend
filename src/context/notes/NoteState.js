@@ -36,7 +36,9 @@ const NoteState = (props) => {
       },
       body: JSON.stringify({ title, description, tag }),
     });
-    fetchAllNotes();
+
+    const jsonResponse = await response.json();
+    console.log(jsonResponse);
   };
 
   const editNote = async (id, title, description, tag) => {
@@ -49,9 +51,9 @@ const NoteState = (props) => {
       },
       body: JSON.stringify({ title, description, tag }),
     });
-    const jsonResponse = response.json();
-    console.log(jsonResponse);
-
+    const jsonResponse = await response.json();
+    console.log(jsonResponse)
+    
     for (let index = 0; index < notes.length; index++) {
       const element = notes[index];
       if (element._id === id) {
@@ -60,6 +62,13 @@ const NoteState = (props) => {
         element.tag = tag;
       }
     }
+    if (response.ok) {
+  setNotes(prevNotes =>
+    prevNotes.map(note =>
+      note._id === id ? { ...note, title, description, tag } : note
+    )
+  );
+}
   };
 
   const deleteNote = async (id) => {
@@ -73,7 +82,8 @@ const NoteState = (props) => {
         "auth-token": authToken,
       },
     });
-    fetchAllNotes();
+    const jsonResponse = await response.json();
+    console.log(jsonResponse);
   };
 
   return (
