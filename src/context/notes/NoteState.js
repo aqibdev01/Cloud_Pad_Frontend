@@ -39,10 +39,10 @@ const NoteState = (props) => {
 
     const jsonResponse = await response.json();
     console.log(jsonResponse);
+    setNotes((prevNotes) => [...prevNotes, jsonResponse]);
   };
 
   const editNote = async (id, title, description, tag) => {
-
     const response = await fetch(`${host}/api/notes/updateNote/${id}`, {
       method: "PUT",
       headers: {
@@ -52,8 +52,8 @@ const NoteState = (props) => {
       body: JSON.stringify({ title, description, tag }),
     });
     const jsonResponse = await response.json();
-    console.log(jsonResponse)
-    
+    console.log(jsonResponse);
+
     for (let index = 0; index < notes.length; index++) {
       const element = notes[index];
       if (element._id === id) {
@@ -63,12 +63,12 @@ const NoteState = (props) => {
       }
     }
     if (response.ok) {
-  setNotes(prevNotes =>
-    prevNotes.map(note =>
-      note._id === id ? { ...note, title, description, tag } : note
-    )
-  );
-}
+      setNotes((prevNotes) =>
+        prevNotes.map((note) =>
+          note._id === id ? { ...note, title, description, tag } : note
+        )
+      );
+    }
   };
 
   const deleteNote = async (id) => {
@@ -84,6 +84,7 @@ const NoteState = (props) => {
     });
     const jsonResponse = await response.json();
     console.log(jsonResponse);
+    setNotes((prevNotes) => prevNotes.filter((note) => note._id !== id));
   };
 
   return (

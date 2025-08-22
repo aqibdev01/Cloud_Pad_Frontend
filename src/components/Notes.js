@@ -13,7 +13,7 @@ function Notes() {
   }, []);
   const handleUpdate = (currentNote) => {
     setNote({
-      id: currentNote._id, // store ID so we know which note to update
+      id: currentNote._id,
       etitle: currentNote.title,
       edescription: currentNote.description,
       etag: currentNote.tag,

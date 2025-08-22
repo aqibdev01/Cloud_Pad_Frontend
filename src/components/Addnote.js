@@ -7,6 +7,7 @@ function Addnote() {
   const [note, setNote] = useState({ title: "", description: "", tag: "" });
   const handleSubmit = () => {
     addNote(note.title, note.description, note.tag);
+    setNote({title:"", description:"", tag:""})
   };
   const handleOnChange = (event) => {
     setNote({ ...note, [event.target.name]: event.target.value });
@@ -24,6 +25,7 @@ function Addnote() {
           id="title"
           name="title"
           placeholder="Title"
+          value={note.title}
           onChange={handleOnChange}
         />
       </div>
@@ -37,6 +39,7 @@ function Addnote() {
           id="description"
           name="description"
           placeholder="Description"
+          value={note.description}
           onChange={handleOnChange}
         />
       </div>
@@ -50,6 +53,7 @@ function Addnote() {
           id="tag"
           name="tag"
           placeholder="Tag"
+          value={note.tag}
           onChange={handleOnChange}
         />
       </div>
