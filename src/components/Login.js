@@ -27,9 +27,8 @@ function Login() {
     if (jsonResponse.status) {
       localStorage.setItem("token", jsonResponse.authToken);
       navigate("/");
-
     } else {
-      console.log("Failed", jsonResponse.error)
+      console.log("Failed", jsonResponse.error);
     }
   };
   return (

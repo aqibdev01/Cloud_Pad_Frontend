@@ -17,24 +17,27 @@ function Signup() {
     e.preventDefault();
     const url = `${host}/api/auth/createUser`;
     const method = "POST";
+    const { name, email, password, confirmPassword } = credentials;
 
-    const response = await fetch(url, {
-      method: method,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name: credentials.name,
-        email: credentials.email,
-        password: credentials.password,
-      }),
-    });
-    const jsonResponse = await response.json();
-    if (jsonResponse.status) {
-      localStorage.setItem("token", jsonResponse.authToken);
-      navigate("/");
-    } else {
-      console.log("Failed", jsonResponse.error);
+    if (password === confirmPassword) {
+      const response = await fetch(url, {
+        method: method,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: name,
+          email: email,
+          password: password,
+        }),
+      });
+      const jsonResponse = await response.json();
+      if (jsonResponse.status) {
+        localStorage.setItem("token", jsonResponse.authToken);
+        navigate("/");
+      } else {
+        console.log("Failed", jsonResponse.error);
+      }
     }
   };
   return (
@@ -48,6 +51,7 @@ function Signup() {
           className="form-control"
           id="name"
           name="name"
+          required
           onChange={handleOnChange}
         />
       </div>
@@ -61,6 +65,7 @@ function Signup() {
           id="email"
           name="email"
           aria-describedby="emailHelp"
+          required
           onChange={handleOnChange}
         />
       </div>
@@ -78,6 +83,7 @@ function Signup() {
           className="form-control"
           id="password"
           name="password"
+          required
           onChange={handleOnChange}
         />
       </div>
@@ -95,6 +101,7 @@ function Signup() {
           className="form-control"
           id="confirmPassword"
           name="confirmPassword"
+          required
           onChange={handleOnChange}
         />
       </div>

@@ -3,9 +3,8 @@ import NoteContext from "./noteContext";
 
 const NoteState = (props) => {
   const host = "http://localhost:5000";
-  const authToken =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjhhMGQxYzIyMTEzNTA1MjQwZGUwZjU3In0sImlhdCI6MTc1NTM3MTg5Nn0.ibRbbxtoPjhc1-XpN9e6qEuxfRifo9A543ZOmGh0ofs";
-
+  const authToken = localStorage.getItem("token")
+  
   const [notes, setNotes] = useState([]);
 
   const fetchAllNotes = async () => {
@@ -32,8 +31,7 @@ const NoteState = (props) => {
       headers: {
         "Content-Type": "application/json",
         "auth-token":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjhhMGQxYzIyMTEzNTA1MjQwZGUwZjU3In0sImlhdCI6MTc1NTM3MTg5Nn0.ibRbbxtoPjhc1-XpN9e6qEuxfRifo9A543ZOmGh0ofs",
-      },
+          authToken},
       body: JSON.stringify({ title, description, tag }),
     });
 
