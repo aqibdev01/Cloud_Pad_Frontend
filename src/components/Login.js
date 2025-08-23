@@ -1,13 +1,13 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const host = "http://localhost:5000";
-  const [credentials, setCredentials] = useState({email:"", password:""});
+  const [credentials, setCredentials] = useState({ email: "", password: "" });
+  let navigate = useNavigate();
   const handleOnChange = (event) => {
     setCredentials({ ...credentials, [event.target.name]: event.target.value });
   };
-//   const authToken =
-//     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiNjhhMGQxYzIyMTEzNTA1MjQwZGUwZjU3In0sImlhdCI6MTc1NTM3MTg5Nn0.ibRbbxtoPjhc1-XpN9e6qEuxfRifo9A543ZOmGh0ofs";
   const handleSubmit = async (e) => {
     e.preventDefault();
     const url = `${host}/api/auth/login`;
@@ -18,17 +18,22 @@ function Login() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email:credentials.email, password:credentials.password}),
+      body: JSON.stringify({
+        email: credentials.email,
+        password: credentials.password,
+      }),
     });
     const jsonResponse = await response.json();
-    if (jsonResponse.authToken){
-        localStorage.setItem("token", jsonResponse.authToken)
-    }else{
-        alert("Invalid Credentials")
+    if (jsonResponse.status) {
+      localStorage.setItem("token", jsonResponse.authToken);
+      navigate("/");
+
+    } else {
+      console.log("Failed", jsonResponse.error)
     }
   };
   return (
-    <form  onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit}>
       <div className="mb-3">
         <label htmlFor="email" className="form-label" id="email" name="email">
           Email address
@@ -44,7 +49,12 @@ function Login() {
         />
       </div>
       <div className="mb-3">
-        <label htmlFor="password" className="form-label" id="password" name="password">
+        <label
+          htmlFor="password"
+          className="form-label"
+          id="password"
+          name="password"
+        >
           Password
         </label>
         <input
