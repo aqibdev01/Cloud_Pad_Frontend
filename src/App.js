@@ -1,5 +1,4 @@
 import "./App.css";
-
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./components/Home";
@@ -8,10 +7,13 @@ import NoteState from "./context/notes/NoteState";
 import Alert from "./components/Alert";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
+import AlertState from "./context/alert/AlertState";
 
 function App() {
   return (
     <>
+    <AlertState>
+
       <NoteState>
         <BrowserRouter>
           <Navbar />
@@ -26,6 +28,7 @@ function App() {
           </div>
         </BrowserRouter>
       </NoteState>
+    </AlertState>
     </>
   );
 }

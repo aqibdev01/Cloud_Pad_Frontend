@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import alertContext from "../context/alert/alertContext";
 
 function Login() {
+  const context = useContext(alertContext);
+  const { showAlert } = context;
   const host = "http://localhost:5000";
   const [credentials, setCredentials] = useState({ email: "", password: "" });
   let navigate = useNavigate();
@@ -24,10 +27,12 @@ function Login() {
       }),
     });
     const jsonResponse = await response.json();
-    if (jsonResponse.status) {
+    if (jsonResponse.success) {
+      showAlert("Login Successfull", "success");
       localStorage.setItem("token", jsonResponse.authToken);
       navigate("/");
     } else {
+      showAlert("Invalid Credentials", "danger");
       console.log("Failed", jsonResponse.error);
     }
   };

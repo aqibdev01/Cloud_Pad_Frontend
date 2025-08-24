@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import alertContext from "../context/alert/alertContext";
 
 function Signup() {
+  const context = useContext(alertContext);
+  const { showAlert } = context;
   const host = "http://localhost:5000";
   const [credentials, setCredentials] = useState({
     name: "",
@@ -32,10 +35,12 @@ function Signup() {
         }),
       });
       const jsonResponse = await response.json();
-      if (jsonResponse.status) {
+      if (jsonResponse.success) {
+        showAlert("Signup Successfull", "success");
         localStorage.setItem("token", jsonResponse.authToken);
         navigate("/");
       } else {
+        showAlert("Signup Failed", "danger");
         console.log("Failed", jsonResponse.error);
       }
     }
@@ -97,7 +102,7 @@ function Signup() {
           Confirm Password
         </label>
         <input
-          type="confirmPassword"
+          type="password"
           className="form-control"
           id="confirmPassword"
           name="confirmPassword"
