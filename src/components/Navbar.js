@@ -1,13 +1,39 @@
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import alertContext from "../context/alert/alertContext";
+import themeContext from "../context/theme/themeContext";
 
 const Navbar = () => {
   const location = useLocation();
+  let navigate = useNavigate();
+  const contextAlert = useContext(alertContext);
+  const { showAlert } = contextAlert;
+  const contextTheme = useContext(themeContext);
+  const { theme, setTheme, btnText, setBtnText } = contextTheme;
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+    showAlert("Logout Successfull", "success");
+  };
+  const handleTheme = () => {
+    if (theme === "dark") {
+      setTheme("light");
+      setBtnText("Dark Theme");
+      showAlert("Switched to Light Theme", "success");
+    } else {
+      setTheme("dark");
+      setBtnText("Light Theme");
+      showAlert("Switched to Dark Theme", "success");
+    }
+  };
   return (
-    <nav className="navbar navbar-expand-lg bg-body-tertiary">
+    <nav
+      className="navbar navbar-expand-lg bg-body-tertiary"
+      data-bs-theme={`${theme}`}
+    >
       <div className="container-fluid">
         <Link className="navbar-brand" to="/doc">
-        <i className="fa-regular fa-cloud"></i>
+          <i className="fa-regular fa-cloud"></i>
           Cloud Pad
         </Link>
         <button
@@ -45,10 +71,23 @@ const Navbar = () => {
               </Link>
             </li>
           </ul>
-          <form className="d-flex" role="search">
-            <Link className="btn btn-primary mx-1" to="/login" role="button">Login</Link>
-            <Link className="btn btn-primary mx-1" to="/signup" role="button">Signup</Link>
-          </form>
+          {!localStorage.getItem("token") ? (
+            <form className="d-flex" role="search">
+              <Link className="btn btn-primary mx-1" to="/login" role="button">
+                Login
+              </Link>
+              <Link className="btn btn-primary mx-1" to="/signup" role="button">
+                Signup
+              </Link>
+            </form>
+          ) : (
+            <div className="btn btn-primary" onClick={handleLogout}>
+              Logout
+            </div>
+          )}
+          <div className="btn btn-primary mx-2" onClick={handleTheme}>
+            {btnText}
+          </div>
         </div>
       </div>
     </nav>

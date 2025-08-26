@@ -1,10 +1,13 @@
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import alertContext from "../context/alert/alertContext";
+import themeContext from "../context/theme/themeContext";
 
 function Signup() {
-  const context = useContext(alertContext);
-  const { showAlert } = context;
+  const contextAlert = useContext(alertContext);
+  const { showAlert } = contextAlert;
+  const contextTheme = useContext(themeContext);
+  const { theme } = contextTheme;
   const host = "http://localhost:5000";
   const [credentials, setCredentials] = useState({
     name: "",
@@ -46,74 +49,77 @@ function Signup() {
     }
   };
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="mb-3">
-        <label htmlFor="name" className="form-label" id="name" name="name">
-          Name
-        </label>
-        <input
-          type="name"
-          className="form-control"
-          id="name"
-          name="name"
-          required
-          onChange={handleOnChange}
-        />
-      </div>
-      <div className="mb-3">
-        <label htmlFor="email" className="form-label" id="email" name="email">
-          Email address
-        </label>
-        <input
-          type="email"
-          className="form-control"
-          id="email"
-          name="email"
-          aria-describedby="emailHelp"
-          required
-          onChange={handleOnChange}
-        />
-      </div>
-      <div className="mb-3">
-        <label
-          htmlFor="password"
-          className="form-label"
-          id="password"
-          name="password"
-        >
-          Password
-        </label>
-        <input
-          type="password"
-          className="form-control"
-          id="password"
-          name="password"
-          required
-          onChange={handleOnChange}
-        />
-      </div>
-      <div className="mb-3">
-        <label
-          htmlFor="confirmPassword"
-          className="form-label"
-          id="confirmPassword"
-          name="confirmPassword"
-        >
-          Confirm Password
-        </label>
-        <input
-          type="password"
-          className="form-control"
-          id="confirmPassword"
-          name="confirmPassword"
-          required
-          onChange={handleOnChange}
-        />
-      </div>
-      <button type="submit" className="btn btn-primary">
-        Submit
-      </button>
-    </form>
+    <div class="mt-3" data-bs-theme={theme}>
+      <h2>Sign up to start using CloudPad</h2>
+      <form onSubmit={handleSubmit}>
+        <div className="mb-3">
+          <label htmlFor="name" className="form-label" id="name" name="name">
+            Name
+          </label>
+          <input
+            type="name"
+            className="form-control"
+            id="name"
+            name="name"
+            required
+            onChange={handleOnChange}
+          />
+        </div>
+        <div className="mb-3">
+          <label htmlFor="email" className="form-label" id="email" name="email">
+            Email address
+          </label>
+          <input
+            type="email"
+            className="form-control"
+            id="email"
+            name="email"
+            aria-describedby="emailHelp"
+            required
+            onChange={handleOnChange}
+          />
+        </div>
+        <div className="mb-3">
+          <label
+            htmlFor="password"
+            className="form-label"
+            id="password"
+            name="password"
+          >
+            Password
+          </label>
+          <input
+            type="password"
+            className="form-control"
+            id="password"
+            name="password"
+            required
+            onChange={handleOnChange}
+          />
+        </div>
+        <div className="mb-3">
+          <label
+            htmlFor="confirmPassword"
+            className="form-label"
+            id="confirmPassword"
+            name="confirmPassword"
+          >
+            Confirm Password
+          </label>
+          <input
+            type="password"
+            className="form-control"
+            id="confirmPassword"
+            name="confirmPassword"
+            required
+            onChange={handleOnChange}
+          />
+        </div>
+        <button type="submit" className="btn btn-primary">
+          Submit
+        </button>
+      </form>
+    </div>
   );
 }
 

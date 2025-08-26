@@ -19,7 +19,12 @@ const NoteState = (props) => {
       },
     });
     const jsonResponse = await response.json();
-    setNotes(jsonResponse);
+    if(jsonResponse.success){
+      setNotes(jsonResponse.note)
+    }
+    else{
+      console.log(jsonResponse.error)
+    }
   };
 
   const addNote = async (title, description, tag) => {
@@ -36,8 +41,12 @@ const NoteState = (props) => {
     });
 
     const jsonResponse = await response.json();
-    console.log(jsonResponse);
-    setNotes((prevNotes) => [...prevNotes, jsonResponse]);
+    if(jsonResponse.success){
+      setNotes((prevNotes) => [...prevNotes, jsonResponse.note]);
+    }
+    else{
+      console.log(jsonResponse.error)
+    }
   };
 
   const editNote = async (id, title, description, tag) => {
@@ -49,8 +58,8 @@ const NoteState = (props) => {
       },
       body: JSON.stringify({ title, description, tag }),
     });
-    const jsonResponse = await response.json();
-    console.log(jsonResponse);
+    // const jsonResponse = await response.json();
+    // console.log(jsonResponse);
 
     for (let index = 0; index < notes.length; index++) {
       const element = notes[index];
@@ -80,9 +89,11 @@ const NoteState = (props) => {
         "auth-token": authToken,
       },
     });
-    const jsonResponse = await response.json();
-    console.log(jsonResponse);
-    setNotes((prevNotes) => prevNotes.filter((note) => note._id !== id));
+    // const jsonResponse = await response.json();
+    // console.log(jsonResponse);
+    if (response.ok) {
+      setNotes((prevNotes) => prevNotes.filter((note) => note._id !== id));
+    }
   };
 
   return (

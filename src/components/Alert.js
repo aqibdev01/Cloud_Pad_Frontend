@@ -1,9 +1,13 @@
 import React, { useContext } from "react";
 import alertContext from "../context/alert/alertContext";
+import themeContext from "../context/theme/themeContext";
 
 function Alert() {
-  const context = useContext(alertContext);
-  const { alert } = context;
+  const contextAlert = useContext(alertContext);
+  const { alert } = contextAlert;
+
+  const contextTheme = useContext(themeContext);
+  const { theme } = contextTheme;
   const capitalize = (word) => {
     if (word === "danger") {
       word = "error";
@@ -16,14 +20,9 @@ function Alert() {
         <div
           className={`alert alert-${alert.type} alert-dismissible fade show`}
           role="alert"
+          data-bs-theme={theme}
         >
           <strong>{capitalize(alert.type)}</strong>: {alert.message}
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="alert"
-            aria-label="Close"
-          ></button>
         </div>
       )}
     </div>

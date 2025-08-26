@@ -1,19 +1,26 @@
 import React, { useContext, useState } from "react";
 import noteContext from "../context/notes/noteContext";
+import alertContext from "../context/alert/alertContext";
+import themeContext from "../context/theme/themeContext";
 
 function Addnote() {
-  const context = useContext(noteContext);
-  const { addNote } = context;
+  const contextAlert = useContext(alertContext);
+  const { showAlert } = contextAlert;
+  const contextNotes = useContext(noteContext);
+  const { addNote } = contextNotes;
+  const contextTheme = useContext(themeContext);
+  const { theme } = contextTheme;
   const [note, setNote] = useState({ title: "", description: "", tag: "" });
   const handleSubmit = () => {
     addNote(note.title, note.description, note.tag);
-    setNote({title:"", description:"", tag:""})
+    setNote({ title: "", description: "", tag: "" });
+    showAlert("Note Added Successfully", "success");
   };
   const handleOnChange = (event) => {
     setNote({ ...note, [event.target.name]: event.target.value });
   };
   return (
-    <div className="my-3">
+    <div className="my-3" data-bs-theme={theme}>
       <h2>Create Note</h2>
       <div className="mb-3">
         <label htmlFor="title" className="form-label">

@@ -1,14 +1,26 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import noteContext from "../context/notes/noteContext";
 import Noteitem from "./Noteitem";
+import alertContext from "../context/alert/alertContext";
+import { useNavigate } from "react-router-dom";
+import themeContext from "../context/theme/themeContext";
 
 function Notes() {
-  const context = useContext(noteContext);
-  const { notes, fetchAllNotes, editNote } = context;
+  const contextAlert = useContext(alertContext);
+  const { showAlert } = contextAlert;
+  const contextNotes = useContext(noteContext);
+  const { notes, fetchAllNotes, editNote } = contextNotes;
+  const contextTheme = useContext(themeContext);
+  const { theme } = contextTheme;
+  let navigate = useNavigate();
   const ref = useRef(null);
   const [note, setNote] = useState({ etitle: "", edescription: "", etag: "" });
   useEffect(() => {
-    fetchAllNotes();
+    if (localStorage.getItem("token")) {
+      fetchAllNotes();
+    } else {
+      navigate("/login");
+    }
     //eslint-disable-next-line
   }, []);
   const handleUpdate = (currentNote) => {
@@ -28,10 +40,11 @@ function Notes() {
   const handleSubmit = () => {
     editNote(note.id, note.etitle, note.edescription, note.etag);
     document.getElementById("closeModalBtn").click();
+    showAlert("Note Updated Successfully", "success");
   };
 
   return (
-    <div className="row my-3">
+    <div className="row my-3" data-bs-theme={theme}>
       <h2>All Notes</h2>
       <button
         ref={ref}

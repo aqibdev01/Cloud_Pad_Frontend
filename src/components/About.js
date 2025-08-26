@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
+import themeContext from "../context/theme/themeContext";
 
 const About = () => {
+  const contextTheme = useContext(themeContext);
+  const { theme } = contextTheme;
   return (
-    <div className="accordion" id="accordionExample">
+    <div className="accordion" id="accordionExample" data-bs-theme={theme}>
       <div className="accordion-item">
         <h2 className="accordion-header">
           <button

@@ -5,7 +5,7 @@ import Addnote from "./Addnote";
 const Home = () => {
   return (
     <>
-      <Addnote/>
+      <Addnote />
       <Notes />
     </>
   );
